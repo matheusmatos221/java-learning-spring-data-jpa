@@ -17,9 +17,9 @@ public class SpringDataApplication implements CommandLineRunner {
 
 	private boolean system = true;
 
-	public SpringDataApplication(CrudCargoService cargoService, CrudFuncionarioService funcionarioService,
-								 CrudUnidadeDeTrabalhoService unidadeDeTrabalhoService)
-	{
+	public SpringDataApplication(CrudCargoService cargoService,
+								 CrudFuncionarioService funcionarioService,
+								 CrudUnidadeDeTrabalhoService unidadeDeTrabalhoService) {
 		this.cargoService = cargoService;
 		this.funcionarioService = funcionarioService;
 		this.unidadeDeTrabalhoService = unidadeDeTrabalhoService;

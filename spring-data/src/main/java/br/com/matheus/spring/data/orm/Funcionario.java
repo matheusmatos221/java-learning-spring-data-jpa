@@ -5,7 +5,6 @@ import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -26,7 +25,7 @@ public class Funcionario {
     @JoinTable(name = "funcionarios_unidades", joinColumns = {
             @JoinColumn(name = "fk_funcionario")},
     inverseJoinColumns = {@JoinColumn(name = "fk_unidade")})
-    private List<UnidadeDeTrabalho> unidadeDeTrabalhos;
+    private List<UnidadeTrabalho> unidadeTrabalhos;
 
 
 
@@ -78,12 +77,12 @@ public class Funcionario {
         this.cargo = cargo;
     }
 
-    public List<UnidadeDeTrabalho> getUnidadeDeTrabalhos() {
-        return unidadeDeTrabalhos;
+    public List<UnidadeTrabalho> getUnidadeDeTrabalhos() {
+        return unidadeTrabalhos;
     }
 
-    public void setUnidadeDeTrabalhos(List<UnidadeDeTrabalho> unidadeDeTrabalhos) {
-        this.unidadeDeTrabalhos = unidadeDeTrabalhos;
+    public void setUnidadeTrabalhos(List<UnidadeTrabalho> unidadeTrabalhos) {
+        this.unidadeTrabalhos = unidadeTrabalhos;
     }
 
     @Override
@@ -91,6 +90,9 @@ public class Funcionario {
         return "Funcionario{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
+                ", salario=" + salario +
+                ", cargo=" + cargo +
+                ", unidadeTrabalhos=" + unidadeTrabalhos +
                 '}';
     }
 }

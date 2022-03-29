@@ -1,18 +1,35 @@
 package br.com.matheus.spring.data.service;
 
+import br.com.matheus.spring.data.orm.Cargo;
 import br.com.matheus.spring.data.orm.Funcionario;
+import br.com.matheus.spring.data.orm.UnidadeTrabalho;
+import br.com.matheus.spring.data.repository.CargoRepository;
 import br.com.matheus.spring.data.repository.FuncionarioRepository;
+import br.com.matheus.spring.data.repository.UnidadeTrabalhoRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 @Service
 public class CrudFuncionarioService {
-    private final FuncionarioRepository funcionarioRepository;
     private boolean system = true;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public CrudFuncionarioService(FuncionarioRepository funcionarioRepository){
+    private final CargoRepository cargoRepository;
+    private final FuncionarioRepository funcionarioRepository;
+    private final UnidadeTrabalhoRepository unidadeTrabalhoRepository;
+
+    public CrudFuncionarioService(FuncionarioRepository funcionarioRepository,
+                                  CargoRepository cargoRepository,
+                                  UnidadeTrabalhoRepository unidadeTrabalhoRepository){
+        this.cargoRepository = cargoRepository;
         this.funcionarioRepository = funcionarioRepository;
+        this.unidadeTrabalhoRepository = unidadeTrabalhoRepository;
     }
 
     public void inicial(Scanner scanner){
@@ -26,29 +43,19 @@ public class CrudFuncionarioService {
 
             int action = scanner.nextInt();
 
-            switch(action){
-                case 0:
-                    system = false;
-                    break;
-                case 1:
-                    salvar(scanner);
-                    break;
-                case 2:
-                    atualizar(scanner);
-                    break;
-                case 3:
-                    visualizar();
-                    break;
-                case 4:
-                    deletar(scanner);
-                    break;
-                default:
+            switch (action) {
+                case 1 -> salvar(scanner);
+                case 2 -> atualizar(scanner);
+                case 3 -> visualizar();
+                case 4 -> deletar(scanner);
+                default -> {
                     System.out.println("Você selecionou uma opção inválida!");
                     system = false;
-                    break;
+                }
             }
         }
     }
+
     private void salvar(Scanner scanner){
         System.out.println("Nome do funcionario");
         String nome = scanner.next();
@@ -56,14 +63,43 @@ public class CrudFuncionarioService {
         String cpf = scanner.next();
         System.out.println("Salario do funcionario");
         double salario = scanner.nextDouble();
+        System.out.println("Data de Contratacao");
+        String dataContratacao = scanner.next();
+        System.out.println("Digite o cargoId");
+        Integer cargoId = scanner.nextInt();
+
+        List<UnidadeTrabalho> unidades = unidade(scanner);
 
         Funcionario funcionario = new Funcionario();
         funcionario.setNome(nome);
         funcionario.setCpf(cpf);
         funcionario.setSalario(salario);
+        funcionario.setDataContratacao(LocalDate.parse(dataContratacao, formatter));
+
+        Optional<Cargo> cargo = cargoRepository.findById(cargoId);
+        cargo.ifPresent(funcionario::setCargo);
+        funcionario.setUnidadeTrabalhos(unidades);
 
         funcionarioRepository.save(funcionario);
         System.out.println("Salvo");
+    }
+
+    private List<UnidadeTrabalho> unidade(Scanner scanner){
+        Boolean isTrue = true;
+        List<UnidadeTrabalho> unidades = new ArrayList<>();
+
+        while(isTrue){
+            System.out.println("Digite o unidadeId (para sair digite 0)");
+            Integer unidadeId = scanner.nextInt();
+
+            if(unidadeId != 0){
+                Optional<UnidadeTrabalho> unidade = unidadeTrabalhoRepository.findById(unidadeId);
+                unidade.ifPresent(unidades::add);
+            }else{
+                isTrue = false;
+            }
+        }
+        return unidades;
     }
 
     private void atualizar(Scanner scanner){
@@ -75,15 +111,23 @@ public class CrudFuncionarioService {
         String cpf = scanner.next();
         System.out.println("Salario do funcionario");
         double salario = scanner.nextDouble();
+        System.out.println("Data de Contratacao");
+        String dataContratacao = scanner.next();
+        System.out.println("Digite o cargoId");
+        Integer cargoId = scanner.nextInt();
 
         Funcionario funcionario = new Funcionario();
         funcionario.setId(id);
         funcionario.setNome(nome);
         funcionario.setCpf(cpf);
         funcionario.setSalario(salario);
+        funcionario.setDataContratacao(LocalDate.parse(dataContratacao, formatter));
+
+        Optional<Cargo> cargo = cargoRepository.findById(cargoId);
+        cargo.ifPresent(funcionario::setCargo);
 
         funcionarioRepository.save(funcionario);
-        System.out.println("Salvo");
+        System.out.println("Alterado");
     }
 
     private void visualizar(){

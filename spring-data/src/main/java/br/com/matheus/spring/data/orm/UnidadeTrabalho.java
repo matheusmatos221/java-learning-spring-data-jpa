@@ -5,13 +5,13 @@ import java.util.List;
 
 @Entity
 @Table(name = "unidade_trabalho")
-public class UnidadeDeTrabalho {
+public class UnidadeTrabalho {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String descricao;
     private String endereco;
-    @ManyToMany(mappedBy = "unidadeDeTrabalhos", fetch=FetchType.EAGER)
+    @ManyToMany(mappedBy = "unidadeTrabalhos", fetch=FetchType.EAGER)
     private List<Funcionario> funcionarios;
 
     public Integer getId() {
@@ -48,9 +48,10 @@ public class UnidadeDeTrabalho {
 
     @Override
     public String toString() {
-        return "UnidadeDeTrabalho{" +
+        return "UnidadeTrabalho{" +
                 "id=" + id +
                 ", descricao='" + descricao + '\'' +
+                ", endereco='" + endereco + '\'' +
                 '}';
     }
 }

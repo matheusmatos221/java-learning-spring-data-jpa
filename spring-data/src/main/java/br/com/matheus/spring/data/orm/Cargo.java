@@ -29,14 +29,6 @@ public class Cargo {
         this.descricao = descricao;
     }
 
-    public List<Funcionario> getFuncionario() {
-        return funcionario;
-    }
-
-    public void setFuncionario(List<Funcionario> funcionario) {
-        this.funcionario = funcionario;
-    }
-
     @Override
     public String toString(){
         return "Cargo [id=" + id + " , descricao=" + descricao + "]";

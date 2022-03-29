@@ -1,8 +1,7 @@
 package br.com.matheus.spring.data.service;
 
-import br.com.matheus.spring.data.orm.Cargo;
-import br.com.matheus.spring.data.orm.UnidadeDeTrabalho;
-import br.com.matheus.spring.data.repository.UnidadeDeTrabalhoRepository;
+import br.com.matheus.spring.data.orm.UnidadeTrabalho;
+import br.com.matheus.spring.data.repository.UnidadeTrabalhoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
@@ -10,10 +9,10 @@ import java.util.Scanner;
 @Service
 public class CrudUnidadeDeTrabalhoService {
     private boolean system = true;
-    private UnidadeDeTrabalhoRepository unidadeDeTrabalhoRepository;
+    private UnidadeTrabalhoRepository unidadeTrabalhoRepository;
 
-    public CrudUnidadeDeTrabalhoService(UnidadeDeTrabalhoRepository unidadeDeTrabalhoRepository) {
-        this.unidadeDeTrabalhoRepository = unidadeDeTrabalhoRepository;
+    public CrudUnidadeDeTrabalhoService(UnidadeTrabalhoRepository unidadeTrabalhoRepository) {
+        this.unidadeTrabalhoRepository = unidadeTrabalhoRepository;
     }
 
     public void inicial(Scanner scanner) {
@@ -28,9 +27,6 @@ public class CrudUnidadeDeTrabalhoService {
             int action = scanner.nextInt();
 
             switch (action) {
-                case 0:
-                    system = false;
-                    break;
                 case 1:
                     salvar(scanner);
                     break;
@@ -57,11 +53,11 @@ public class CrudUnidadeDeTrabalhoService {
         System.out.println("Endereco da Unidade");
         String endereco = scanner.next();
 
-        UnidadeDeTrabalho unidadeDeTrabalho = new UnidadeDeTrabalho();
-        unidadeDeTrabalho.setDescricao(descricao);
-        unidadeDeTrabalho.setEndereco(endereco);
+        UnidadeTrabalho unidadeTrabalho = new UnidadeTrabalho();
+        unidadeTrabalho.setDescricao(descricao);
+        unidadeTrabalho.setEndereco(endereco);
 
-        unidadeDeTrabalhoRepository.save(unidadeDeTrabalho);
+        unidadeTrabalhoRepository.save(unidadeTrabalho);
         System.out.println("Salvo");
     }
 
@@ -73,24 +69,24 @@ public class CrudUnidadeDeTrabalhoService {
         System.out.println("Endereco da Unidade");
         String endereco = scanner.next();
 
-        UnidadeDeTrabalho unidadeDeTrabalho = new UnidadeDeTrabalho();
-        unidadeDeTrabalho.setId(id);
-        unidadeDeTrabalho.setDescricao(descricao);
-        unidadeDeTrabalho.setEndereco(endereco);
+        UnidadeTrabalho unidadeTrabalho = new UnidadeTrabalho();
+        unidadeTrabalho.setId(id);
+        unidadeTrabalho.setDescricao(descricao);
+        unidadeTrabalho.setEndereco(endereco);
 
-        unidadeDeTrabalhoRepository.save(unidadeDeTrabalho);
+        unidadeTrabalhoRepository.save(unidadeTrabalho);
         System.out.println("Atualizado");
     }
 
     private void visualizar() {
-        Iterable<UnidadeDeTrabalho> unidades = unidadeDeTrabalhoRepository.findAll();
+        Iterable<UnidadeTrabalho> unidades = unidadeTrabalhoRepository.findAll();
         unidades.forEach(System.out::println);
     }
 
     private void deletar(Scanner scanner) {
         System.out.println("Id");
         Integer id = scanner.nextInt();
-        unidadeDeTrabalhoRepository.deleteById(id);
+        unidadeTrabalhoRepository.deleteById(id);
         System.out.println("Deletado");
     }
 }
