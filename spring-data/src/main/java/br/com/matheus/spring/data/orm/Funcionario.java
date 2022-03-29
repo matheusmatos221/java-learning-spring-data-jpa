@@ -27,8 +27,6 @@ public class Funcionario {
     inverseJoinColumns = {@JoinColumn(name = "fk_unidade")})
     private List<UnidadeTrabalho> unidadeTrabalhos;
 
-
-
     public Integer getId() {
         return id;
     }
@@ -90,9 +88,10 @@ public class Funcionario {
         return "Funcionario{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
+                ", cpf='" + cpf + '\'' +
                 ", salario=" + salario +
+                ", dataContratacao=" + dataContratacao +
                 ", cargo=" + cargo +
-                ", unidadeTrabalhos=" + unidadeTrabalhos +
                 '}';
     }
 }
