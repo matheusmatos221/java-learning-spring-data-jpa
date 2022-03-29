@@ -1,7 +1,12 @@
 package br.com.matheus.spring.data.orm;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "funcionarios")
@@ -12,6 +17,18 @@ public class Funcionario {
     private String nome;
     private String cpf;
     private double salario;
+    private LocalDate dataContratacao;
+    @ManyToOne
+    @JoinColumn(name = "cargo_id", nullable = false)
+    private Cargo cargo;
+    @Fetch(FetchMode.SELECT)
+    @ManyToMany
+    @JoinTable(name = "funcionarios_unidades", joinColumns = {
+            @JoinColumn(name = "fk_funcionario")},
+    inverseJoinColumns = {@JoinColumn(name = "fk_unidade")})
+    private List<UnidadeDeTrabalho> unidadeDeTrabalhos;
+
+
 
     public Integer getId() {
         return id;
@@ -45,15 +62,29 @@ public class Funcionario {
         this.salario = salario;
     }
 
-    public Date getDataContratacao() {
+    public LocalDate getDataContratacao() {
         return dataContratacao;
     }
 
-    public void setDataContratacao(Date dataContratacao) {
+    public void setDataContratacao(LocalDate dataContratacao) {
         this.dataContratacao = dataContratacao;
     }
 
-    private Date dataContratacao;
+    public Cargo getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(Cargo cargo) {
+        this.cargo = cargo;
+    }
+
+    public List<UnidadeDeTrabalho> getUnidadeDeTrabalhos() {
+        return unidadeDeTrabalhos;
+    }
+
+    public void setUnidadeDeTrabalhos(List<UnidadeDeTrabalho> unidadeDeTrabalhos) {
+        this.unidadeDeTrabalhos = unidadeDeTrabalhos;
+    }
 
     @Override
     public String toString() {

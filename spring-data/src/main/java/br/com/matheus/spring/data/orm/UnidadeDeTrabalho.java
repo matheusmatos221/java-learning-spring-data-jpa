@@ -1,15 +1,18 @@
 package br.com.matheus.spring.data.orm;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "unidades")
+@Table(name = "unidade_trabalho")
 public class UnidadeDeTrabalho {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String descricao;
     private String endereco;
+    @ManyToMany(mappedBy = "unidadeDeTrabalhos", fetch=FetchType.EAGER)
+    private List<Funcionario> funcionarios;
 
     public Integer getId() {
         return id;
@@ -33,6 +36,14 @@ public class UnidadeDeTrabalho {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+
+    public List<Funcionario> getFuncionarios() {
+        return funcionarios;
+    }
+
+    public void setFuncionarios(List<Funcionario> funcionarios) {
+        this.funcionarios = funcionarios;
     }
 
     @Override
