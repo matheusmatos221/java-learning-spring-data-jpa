@@ -16,6 +16,7 @@ public class CrudUnidadeDeTrabalhoService {
     }
 
     public void inicial(Scanner scanner) {
+        system = true;
         while (system) {
             System.out.println("Qual acao de unidade deseja executar?");
             System.out.println("0 - Sair");

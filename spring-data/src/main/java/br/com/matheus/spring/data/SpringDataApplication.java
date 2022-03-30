@@ -38,6 +38,7 @@ public class SpringDataApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) {
 		Scanner scanner = new Scanner(System.in);
+		system = true;
 		while(system){
 			System.out.println("Qual ação você quer executar? ");
 			System.out.println("0 - Sair");

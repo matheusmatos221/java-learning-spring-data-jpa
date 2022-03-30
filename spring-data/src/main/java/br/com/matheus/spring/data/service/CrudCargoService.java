@@ -16,6 +16,7 @@ public class CrudCargoService {
     }
 
     public void inicial(Scanner scanner){
+        system = true;
         while(system){
             System.out.println("Qual acao de cargo deseja executar?");
             System.out.println("0 - Sair");

@@ -33,6 +33,7 @@ public class CrudFuncionarioService {
     }
 
     public void inicial(Scanner scanner){
+        system = true;
         while(system){
             System.out.println("Qual acao de funcionario deseja executar?");
             System.out.println("0 - Sair");
@@ -116,6 +117,8 @@ public class CrudFuncionarioService {
         System.out.println("Digite o cargoId");
         Integer cargoId = scanner.nextInt();
 
+        List<UnidadeTrabalho> unidades = unidade(scanner);
+
         Funcionario funcionario = new Funcionario();
         funcionario.setId(id);
         funcionario.setNome(nome);
@@ -125,6 +128,7 @@ public class CrudFuncionarioService {
 
         Optional<Cargo> cargo = cargoRepository.findById(cargoId);
         cargo.ifPresent(funcionario::setCargo);
+        funcionario.setUnidadeTrabalhos(unidades);
 
         funcionarioRepository.save(funcionario);
         System.out.println("Alterado");
