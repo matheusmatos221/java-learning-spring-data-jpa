@@ -2,6 +2,10 @@ package br.com.matheus.spring.data.service;
 
 import br.com.matheus.spring.data.orm.UnidadeTrabalho;
 import br.com.matheus.spring.data.repository.UnidadeTrabalhoRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Scanner;
@@ -35,7 +39,7 @@ public class CrudUnidadeDeTrabalhoService {
                     atualizar(scanner);
                     break;
                 case 3:
-                    visualizar();
+                    visualizar(scanner);
                     break;
                 case 4:
                     deletar(scanner);
@@ -79,8 +83,15 @@ public class CrudUnidadeDeTrabalhoService {
         System.out.println("Atualizado");
     }
 
-    private void visualizar() {
-        Iterable<UnidadeTrabalho> unidades = unidadeTrabalhoRepository.findAll();
+    private void visualizar(Scanner scanner) {
+        System.out.println("Qual pagina voce deseja visualizar?");
+        Integer page = scanner.nextInt();
+
+        Pageable pageable = PageRequest.of(page, 5, Sort.unsorted());
+
+        Page<UnidadeTrabalho> unidades = unidadeTrabalhoRepository.findAll(pageable);
+
+        System.out.println(unidades);
         unidades.forEach(System.out::println);
     }
 

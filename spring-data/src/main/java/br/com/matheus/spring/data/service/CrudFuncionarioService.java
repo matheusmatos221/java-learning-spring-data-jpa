@@ -6,6 +6,10 @@ import br.com.matheus.spring.data.orm.UnidadeTrabalho;
 import br.com.matheus.spring.data.repository.CargoRepository;
 import br.com.matheus.spring.data.repository.FuncionarioRepository;
 import br.com.matheus.spring.data.repository.UnidadeTrabalhoRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -47,7 +51,7 @@ public class CrudFuncionarioService {
             switch (action) {
                 case 1 -> salvar(scanner);
                 case 2 -> atualizar(scanner);
-                case 3 -> visualizar();
+                case 3 -> visualizar(scanner);
                 case 4 -> deletar(scanner);
                 default -> {
                     System.out.println("Você selecionou uma opção inválida!");
@@ -134,8 +138,17 @@ public class CrudFuncionarioService {
         System.out.println("Alterado");
     }
 
-    private void visualizar(){
-        Iterable<Funcionario> funcionarios = funcionarioRepository.findAll();
+    private void visualizar(Scanner scanner){
+        System.out.println("Qual pagina voce deseja visualizar?");
+        Integer page = scanner.nextInt();
+
+        Pageable pageable = PageRequest.of(page, 5, Sort.unsorted());
+        Page<Funcionario> funcionarios = funcionarioRepository.findAll(pageable);
+
+        System.out.println(funcionarios);
+        System.out.println("Pagina atual: " + funcionarios.getNumber());
+        System.out.println("Total elemento: "+ funcionarios.getTotalElements());
+
         funcionarios.forEach(System.out::println);
     }
 
